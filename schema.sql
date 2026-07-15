@@ -82,5 +82,3 @@ CREATE TABLE IF NOT EXISTS purchases (
     trade_in_value      NUMERIC(10,2) DEFAULT 0
 );
 
-SELECT COUNT(*) FROM information_schema.table_constraints 
-WHERE constraint_type = 'FOREIGN KEY';

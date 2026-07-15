@@ -103,3 +103,27 @@ resource "google_bigquery_table" "mongo_bronze_tables" {
   deletion_protection = false
   schema              = file("${path.module}/../schemas/${each.value}")
 }
+
+# ---------------------------------------------------------------------------
+# SERVICE ACCOUNT — the identity all three extraction scripts run as
+# ---------------------------------------------------------------------------
+resource "google_service_account" "pipeline_sa" {
+  account_id   = "car-pipeline-${var.environment}"
+  display_name = "German car market pipeline service account (${var.environment})"
+}
+
+resource "google_project_iam_member" "pipeline_bq_job_user" {
+  project = var.project_id
+  role    = "roles/bigquery.jobUser"
+  member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
+}
+
+resource "google_project_iam_member" "pipeline_bq_data_editor" {
+  project = var.project_id
+  role    = "roles/bigquery.dataEditor"
+  member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
+}
+
+resource "google_service_account_key" "pipeline_sa_key" {
+  service_account_id = google_service_account.pipeline_sa.name
+}
