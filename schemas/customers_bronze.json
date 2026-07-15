@@ -1,0 +1,12 @@
+[
+  {"name": "customer_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "first_name", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "last_name", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "birth_date", "type": "DATE", "mode": "NULLABLE"},
+  {"name": "gender", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "occupation", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "income_bracket", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "marital_status", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "region_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "city", "type": "STRING", "mode": "NULLABLE"}
+]

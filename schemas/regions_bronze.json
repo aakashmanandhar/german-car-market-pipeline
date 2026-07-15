@@ -1,0 +1,5 @@
+[
+  {"name": "region_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "region_name", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "country", "type": "STRING", "mode": "NULLABLE"}
+]

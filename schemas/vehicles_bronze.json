@@ -1,0 +1,9 @@
+[
+  {"name": "vehicle_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "model_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "model_year", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "fuel_type", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "engine_size_liters", "type": "FLOAT", "mode": "NULLABLE"},
+  {"name": "transmission_type", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "emissions_class", "type": "STRING", "mode": "NULLABLE"}
+]

@@ -1,0 +1,7 @@
+[
+  {"name": "_id", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "purchase_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "review_text", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "rating", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "review_date", "type": "STRING", "mode": "NULLABLE"}
+]

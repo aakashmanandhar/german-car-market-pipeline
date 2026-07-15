@@ -1,0 +1,14 @@
+[
+  {"name": "purchase_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "customer_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "vehicle_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "store_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "financing_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "channel_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "purchase_date", "type": "DATE", "mode": "NULLABLE"},
+  {"name": "price", "type": "NUMERIC", "mode": "NULLABLE"},
+  {"name": "mileage_at_purchase", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "new_or_used", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "discount_applied", "type": "NUMERIC", "mode": "NULLABLE"},
+  {"name": "trade_in_value", "type": "NUMERIC", "mode": "NULLABLE"}
+]

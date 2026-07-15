@@ -1,0 +1,4 @@
+[
+  {"name": "channel_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "channel_name", "type": "STRING", "mode": "NULLABLE"}
+]

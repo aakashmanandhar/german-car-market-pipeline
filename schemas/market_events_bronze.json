@@ -1,0 +1,6 @@
+[
+  {"name": "_id", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "event_date", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "event_title", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "event_description", "type": "STRING", "mode": "NULLABLE"}
+]

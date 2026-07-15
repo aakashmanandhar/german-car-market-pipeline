@@ -1,0 +1,7 @@
+[
+  {"name": "model_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "brand_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "model_name", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "body_type", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "segment", "type": "STRING", "mode": "NULLABLE"}
+]

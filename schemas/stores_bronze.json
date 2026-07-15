@@ -1,0 +1,7 @@
+[
+  {"name": "store_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "store_name", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "region_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "city", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "store_type", "type": "STRING", "mode": "NULLABLE"}
+]

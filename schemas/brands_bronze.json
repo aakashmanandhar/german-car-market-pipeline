@@ -1,0 +1,6 @@
+[
+  {"name": "brand_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "brand_name", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "country_of_origin", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "brand_tier", "type": "STRING", "mode": "NULLABLE"}
+]

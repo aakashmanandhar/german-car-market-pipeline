@@ -1,0 +1,7 @@
+[
+  {"name": "_id", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "purchase_id", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "note_text", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "staff_member", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "note_date", "type": "STRING", "mode": "NULLABLE"}
+]
