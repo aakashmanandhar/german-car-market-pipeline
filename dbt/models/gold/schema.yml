@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: fact_purchases
+    description: "The central fact table — one row per purchase, with net_price calculated."
+    columns:
+      - name: purchase_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: vehicle_id
+        tests:
+          - not_null
+      - name: net_price
+        tests:
+          - not_null
+
+  - name: dim_customer
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_vehicle
+    columns:
+      - name: vehicle_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_date
+    columns:
+      - name: full_date
+        tests:
+          - unique
+          - not_null
