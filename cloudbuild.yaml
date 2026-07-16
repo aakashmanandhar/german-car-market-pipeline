@@ -17,8 +17,22 @@ steps:
       - '-c'
       - |
         pip install dbt-bigquery==1.11.3 --quiet
+        mkdir -p /workspace/dbt/.ci_profile
+        cat > /workspace/dbt/.ci_profile/profiles.yml << 'EOF'
+        german_car_pipeline:
+          target: dev
+          outputs:
+            dev:
+              type: bigquery
+              method: service-account
+              project: german-car-pipeline
+              dataset: bronze_postgres_dev
+              threads: 4
+              keyfile: /tmp/fake-key.json
+              location: europe-west3
+        EOF
         cd dbt
-        dbt parse --no-partial-parse
+        dbt parse --profiles-dir .ci_profile --no-partial-parse
 
 options:
   logging: CLOUD_LOGGING_ONLY
