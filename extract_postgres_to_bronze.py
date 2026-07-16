@@ -7,7 +7,7 @@ from google.oauth2 import service_account
 load_dotenv()
 
 pg_conn = psycopg2.connect(
-    host="localhost",
+    host=os.environ.get("PG_HOST", "localhost"),
     port=5432,
     dbname="german_car_market",
     user="postgres",

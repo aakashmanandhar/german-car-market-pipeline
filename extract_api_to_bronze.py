@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 
 load_dotenv()
 
-API_BASE_URL = "http://localhost:5001/api/v1"
+API_BASE_URL = f"http://{os.environ.get('API_HOST', 'localhost')}:5001/api/v1"
 API_USER = os.environ["CATALOG_API_USER"]
 API_PASS = os.environ["CATALOG_API_PASS"]
 
