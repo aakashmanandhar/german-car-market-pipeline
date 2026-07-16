@@ -127,3 +127,16 @@ resource "google_project_iam_member" "pipeline_bq_data_editor" {
 resource "google_service_account_key" "pipeline_sa_key" {
   service_account_id = google_service_account.pipeline_sa.name
 }
+
+# ---------------------------------------------------------------------------
+# STREAMING — Pub/Sub topic for real-time new purchase events
+# ---------------------------------------------------------------------------
+resource "google_pubsub_topic" "new_purchase" {
+  name = "new-purchase-${var.environment}"
+}
+
+resource "google_project_iam_member" "pipeline_pubsub_publisher" {
+  project = var.project_id
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
+}
