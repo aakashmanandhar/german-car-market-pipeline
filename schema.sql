@@ -82,3 +82,4 @@ CREATE TABLE IF NOT EXISTS purchases (
     trade_in_value      NUMERIC(10,2) DEFAULT 0
 );
 
+s

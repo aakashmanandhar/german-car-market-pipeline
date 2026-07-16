@@ -7,3 +7,7 @@ terraform/*.tfstate
 terraform/*.tfstate.backup
 terraform/terraform.tfvars
 keys/*.json
+dbt/profiles.yml
+dbt/target/
+dbt/logs/
+dbt/.user.yml

@@ -1,0 +1,17 @@
+name: 'german_car_pipeline'
+version: '1.0.0'
+config-version: 2
+
+profile: 'german_car_pipeline'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+models:
+  german_car_pipeline:
+    silver:
+      +materialized: table
+      +schema: silver_dev
+    gold:
+      +materialized: table
+      +schema: gold_dev

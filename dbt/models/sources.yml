@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: bronze_postgres
+    dataset: bronze_postgres_dev
+    tables:
+      - name: regions
+      - name: financing_types
+      - name: sales_channels
+      - name: customers
+      - name: stores
+      - name: purchases
+
+  - name: bronze_api
+    dataset: bronze_api_dev
+    tables:
+      - name: brands
+      - name: models
+      - name: vehicles
+
+  - name: bronze_mongo
+    dataset: bronze_mongo_dev
+    tables:
+      - name: customer_reviews
+      - name: dealer_notes
+      - name: market_events
