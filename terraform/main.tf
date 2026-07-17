@@ -140,3 +140,9 @@ resource "google_project_iam_member" "pipeline_pubsub_publisher" {
   role    = "roles/pubsub.publisher"
   member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
 }
+
+resource "google_project_iam_member" "pipeline_vertex_ai_user" {
+  project = var.project_id
+  role    = "roles/aiplatform.user"
+  member  = "serviceAccount:${google_service_account.pipeline_sa.email}"
+}

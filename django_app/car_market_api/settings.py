@@ -129,3 +129,7 @@ CORS_ALLOWED_ORIGINS = [
 # BigQuery connection — reuses the same service account from the data pipeline
 GOOGLE_APPLICATION_CREDENTIALS = "../keys/car_pipeline_service_account.json"
 GCP_PROJECT_ID = "german-car-pipeline"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+}
