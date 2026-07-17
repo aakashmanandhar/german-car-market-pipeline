@@ -17,6 +17,8 @@ dim_store: store_id, store_name, region_id, region_name, city, store_type
 dim_financing: financing_id, type_name
 dim_channel: channel_id, channel_name
 dim_date: full_date, year, quarter, month, month_name, day_of_week, day_name, is_weekend
+
+IMPORTANT: The 16 German Bundesländer (e.g. "Bremen", "Bavaria", "Saxony", "Hamburg") are stored in the region_name column on dim_store and dim_customer — NOT in the city column. If a question mentions a Bundesland/state/region name, filter on region_name, not city.
 """
 
 def region_filter_clause(request):
@@ -128,59 +130,6 @@ def channel_shift(request):
     results = client.query(query).result()
     return Response([dict(row) for row in results])
 
-@api_view(['GET'])
-def fuel_type_trend(request):
-    client = get_bigquery_client()
-    where_clause = region_filter_clause(request)
-    query = f"""
-        SELECT
-            EXTRACT(YEAR FROM f.purchase_date) AS year,
-            v.fuel_type,
-            COUNT(*) AS purchase_count
-        FROM `{PROJECT_ID}.gold_dev.fact_purchases` f
-        JOIN `{PROJECT_ID}.gold_dev.dim_vehicle` v ON f.vehicle_id = v.vehicle_id
-        JOIN `{PROJECT_ID}.gold_dev.dim_store` s ON f.store_id = s.store_id
-        {where_clause}
-        GROUP BY year, fuel_type
-        ORDER BY year, fuel_type
-    """
-    results = client.query(query).result()
-    return Response([dict(row) for row in results])
-
-
-@api_view(['GET'])
-def price_trend(request):
-    client = get_bigquery_client()
-    where_clause = region_filter_clause(request)
-    query = f"""
-        SELECT
-            EXTRACT(YEAR FROM f.purchase_date) AS year,
-            ROUND(AVG(f.net_price), 2) AS avg_net_price
-        FROM `{PROJECT_ID}.gold_dev.fact_purchases` f
-        JOIN `{PROJECT_ID}.gold_dev.dim_store` s ON f.store_id = s.store_id
-        {where_clause}
-        GROUP BY year
-        ORDER BY year
-    """
-    results = client.query(query).result()
-    return Response([dict(row) for row in results])
-
-
-@api_view(['GET'])
-def new_vs_used(request):
-    client = get_bigquery_client()
-    where_clause = region_filter_clause(request)
-    query = f"""
-        SELECT
-            f.new_or_used,
-            COUNT(*) AS purchase_count
-        FROM `{PROJECT_ID}.gold_dev.fact_purchases` f
-        JOIN `{PROJECT_ID}.gold_dev.dim_store` s ON f.store_id = s.store_id
-        {where_clause}
-        GROUP BY new_or_used
-    """
-    results = client.query(query).result()
-    return Response([dict(row) for row in results])
 
 @api_view(['GET'])
 def fuel_type_trend(request):
@@ -257,36 +206,6 @@ def is_safe_select(sql):
     forbidden = ["DROP", "DELETE", "UPDATE", "INSERT", "TRUNCATE", "ALTER", "CREATE", "MERGE"]
     return not any(word in normalized for word in forbidden)
 
-
-def handle_sql_question(question):
-    client = get_bigquery_client()
-
-    sql_prompt = f"""You are a BigQuery SQL expert. Given this star schema (all tables live in `{PROJECT_ID}.gold_dev`):
-{STAR_SCHEMA_DESCRIPTION}
-
-Write ONE BigQuery SQL SELECT query, fully qualifying every table as `{PROJECT_ID}.gold_dev.tablename`, to answer this question. Return ONLY the raw SQL, no explanation, no markdown formatting, no backticks around the whole thing.
-
-Question: "{question}" """
-
-    response = genai_client.models.generate_content(model="gemini-2.5-flash", contents=sql_prompt)
-    sql = re.sub(r'^```sql\s*|\s*```$', '', response.text.strip(), flags=re.MULTILINE).strip()
-
-    if not is_safe_select(sql):
-        return "I could only generate an unsafe query for that question, so I won't run it.", sql
-
-    try:
-        rows = [dict(row) for row in client.query(sql).result()][:20]
-    except Exception as e:
-        return f"I generated a query but it failed to run: {e}", sql
-
-    phrase_prompt = f"""Question: "{question}"
-Query result (JSON rows): {rows}
-
-Answer in one or two plain, natural sentences, using the real numbers from this result."""
-    final = genai_client.models.generate_content(model="gemini-2.5-flash", contents=phrase_prompt)
-    return final.text.strip(), sql
-
-
 def handle_rag_question(question):
     client = get_bigquery_client()
 
@@ -321,6 +240,37 @@ Answer in 2-3 plain sentences, based only on the context above."""
     response = genai_client.models.generate_content(model="gemini-2.5-flash", contents=answer_prompt)
     return response.text.strip(), retrieved
 
+def handle_sql_question(question):
+    client = get_bigquery_client()
+
+    sql_prompt = f"""You are a BigQuery SQL expert. Given this star schema (all tables live in `{PROJECT_ID}.gold_dev`):
+{STAR_SCHEMA_DESCRIPTION}
+
+CRITICAL: Every table reference MUST be wrapped in backticks, since the project ID contains hyphens.
+Correct: `{PROJECT_ID}.gold_dev.fact_purchases`
+Incorrect: {PROJECT_ID}.gold_dev.fact_purchases (no backticks — this will fail)
+
+Write ONE BigQuery SQL SELECT query to answer this question. Return ONLY the raw SQL, no explanation, no markdown formatting, no backticks around the whole response (only around table names as shown above).
+
+Question: "{question}" """
+
+    response = genai_client.models.generate_content(model="gemini-2.5-flash", contents=sql_prompt)
+    sql = re.sub(r'^```sql\s*|\s*```$', '', response.text.strip(), flags=re.MULTILINE).strip()
+
+    if not is_safe_select(sql):
+        return "I could only generate an unsafe query for that question, so I won't run it.", sql
+
+    try:
+        rows = [dict(row) for row in client.query(sql).result()][:20]
+    except Exception as e:
+        return f"I generated a query but it failed to run: {e}", sql
+
+    phrase_prompt = f"""Question: "{question}"
+Query result (JSON rows): {rows}
+
+Answer in one or two plain, natural sentences, using the real numbers from this result."""
+    final = genai_client.models.generate_content(model="gemini-2.5-flash", contents=phrase_prompt)
+    return final.text.strip(), sql
 
 @api_view(['POST'])
 def ask(request):

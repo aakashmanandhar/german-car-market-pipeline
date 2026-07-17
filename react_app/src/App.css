@@ -43,3 +43,6 @@ body { margin: 0; font-family: 'Inter', -apple-system, sans-serif; }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; }
 .grid-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.layout { display: grid; grid-template-columns: 1fr 380px; gap: 16px; align-items: start; }
+.chat-sticky { position: sticky; top: 20px; }
