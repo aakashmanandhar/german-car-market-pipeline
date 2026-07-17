@@ -1,38 +1,45 @@
-.App {
-  text-align: center;
+:root {
+  --bg: #0F1420; --card: #161C2C; --border: #232B3D;
+  --text: #F4F5F7; --sub: #8B93A7; --accent: #4C8DFF;
+}
+.dashboard.light {
+  --bg: #F4F5F7; --card: #FFFFFF; --border: #E2E4E9;
+  --text: #171A21; --sub: #5C6272; --accent: #4C8DFF;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body { margin: 0; font-family: 'Inter', -apple-system, sans-serif; }
+
+.dashboard {
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; transition: background .2s, color .2s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.dashboard-inner { max-width: 1400px; margin: 0 auto; padding: 24px; }
+
+.topbar h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+.topbar .sub { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+.filter-bar {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 16px 20px; margin: 20px 0 24px; display: flex; align-items: center; gap: 16px;
+}
+.filter-bar .label { font-size: 11px; color: var(--sub); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+.region-select {
+  background: var(--bg); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; font-size: 14px; font-family: inherit; min-width: 240px;
+}
+.theme-toggle {
+  margin-left: auto; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+  border-radius: 8px; padding: 9px 16px; cursor: pointer; font-size: 13px; font-family: inherit;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; }
+.kpi-card .label { font-size: 10.5px; color: var(--sub); text-transform: uppercase; letter-spacing: 0.05em; }
+.kpi-card .value { font-size: 24px; font-weight: 800; margin-top: 6px; }
 
-.App-link {
-  color: #61dafb;
-}
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 16px; }
+.panel h2 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+.grid-2 { display: grid; grid-template-columns: 1fr 1.4fr; gap: 16px; }
+.grid-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

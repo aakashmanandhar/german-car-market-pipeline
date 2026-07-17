@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function KpiCards() {
+function KpiCards({ selectedRegion }) {
   const [kpis, setKpis] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/kpi-summary/')
+    const url = selectedRegion 
+      ? `http://localhost:8000/api/kpi-summary/?region=${encodeURIComponent(selectedRegion)}`
+      : 'http://localhost:8000/api/kpi-summary/';
+    axios.get(url)
       .then(response => setKpis(response.data))
       .catch(error => console.error('Error fetching KPIs:', error));
-  }, []);
+  }, [selectedRegion]);
 
   if (!kpis) return <div>Loading KPIs...</div>;
 
@@ -25,22 +28,22 @@ function KpiCards() {
   const labelStyle = { fontSize: '12px', color: '#5C6272', textTransform: 'uppercase', letterSpacing: '0.05em' };
 
   return (
-    <div style={{ display: 'flex', gap: '16px', padding: '20px', maxWidth: 1000, margin: '0 auto' }}>
-      <div style={cardStyle}>
-        <div style={labelStyle}>Total Revenue</div>
-        <div style={valueStyle}>€{(kpis.total_revenue / 1_000_000_000).toFixed(2)}B</div>
+    <div className="kpi-row">
+      <div className="kpi-card">
+        <div className="label">Total Revenue</div>
+        <div className="value">€{(kpis.total_revenue / 1_000_000_000).toFixed(2)}B</div>
       </div>
-      <div style={cardStyle}>
-        <div style={labelStyle}>Avg Net Price</div>
-        <div style={valueStyle}>€{kpis.avg_net_price.toLocaleString()}</div>
+      <div className="kpi-card">
+        <div className="label">Avg Net Price</div>
+        <div className="value">€{kpis.avg_net_price.toLocaleString()}</div>
       </div>
-      <div style={cardStyle}>
-        <div style={labelStyle}>Total Purchases</div>
-        <div style={valueStyle}>{kpis.total_purchases.toLocaleString()}</div>
+      <div className="kpi-card">
+        <div className="label">Total Purchases</div>
+        <div className="value">{kpis.total_purchases.toLocaleString()}</div>
       </div>
-      <div style={cardStyle}>
-        <div style={labelStyle}>EV / Hybrid Share</div>
-        <div style={valueStyle}>{kpis.ev_hybrid_share_pct}%</div>
+      <div className="kpi-card">
+        <div className="label">EV / Hybrid Share</div>
+        <div className="value">{kpis.ev_hybrid_share_pct}%</div>
       </div>
     </div>
   );

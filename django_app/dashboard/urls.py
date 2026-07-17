@@ -5,4 +5,6 @@ urlpatterns = [
     path('brand-market-share/', views.brand_market_share, name='brand-market-share'),
     path('kpi-summary/', views.kpi_summary, name='kpi-summary'),
     path('revenue-by-region/', views.revenue_by_region, name='revenue-by-region'),
+    path('revenue-by-financing/', views.revenue_by_financing, name='revenue-by-financing'),
+    path('channel-shift/', views.channel_shift, name='channel-shift'),
 ]
