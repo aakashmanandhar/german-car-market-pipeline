@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Flask API",
+      "type": "shell",
+      "command": "source venv/bin/activate && python vehicle_catalog_api.py",
+      "isBackground": true,
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "services"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Django",
+      "type": "shell",
+      "command": "cd django_app && source ../venv/bin/activate && python manage.py runserver",
+      "isBackground": true,
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "services"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start React",
+      "type": "shell",
+      "command": "cd react_app && npm start",
+      "isBackground": true,
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "services"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Car Market Platform",
+      "dependsOn": ["Start Flask API", "Start Django", "Start React"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+    {
+      "label": "Stop Car Market Platform",
+      "type": "shell",
+      "command": "lsof -ti:5001,8000,3000 | xargs kill -9 2>/dev/null; echo 'Stopped Flask (5001), Django (8000), and React (3000).'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
